@@ -20,9 +20,21 @@ const getTalkerId = async (idTalker) => {
 
 const insertTalker = async (post) => {
   try {
-    const arrayPosts = await readTalkerFile();
-    arrayPosts.push(post);
-    return await fs.writeFile('src/talker.json', JSON.stringify(arrayPosts, null, 2));
+    const arrayTalkers = await readTalkerFile();
+    arrayTalkers.push(post);
+    return await fs.writeFile('src/talker.json', JSON.stringify(arrayTalkers, null, 2));
+  } catch (error) {
+    const err = new Error('Error writing file');
+    err.statusCode = 500;
+    throw err;
+  }
+};
+
+const deletTalker = async (id) => {
+  try {
+    const arrayTalkers = await readTalkerFile();
+    const newArray = arrayTalkers.filter((talker) => talker.id !== Number(id));
+    return await fs.writeFile('src/talker.json', JSON.stringify(newArray, null, 2));
   } catch (error) {
     const err = new Error('Error writing file');
     err.statusCode = 500;
@@ -34,4 +46,5 @@ module.exports = {
   readTalkerFile,
   insertTalker,
   getTalkerId,  
+  deletTalker,
 };

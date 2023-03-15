@@ -2,7 +2,8 @@ const router = require('express').Router();
 
 const { readTalkerFile, 
   getTalkerId, 
-  insertTalker,   
+  insertTalker,
+  deletTalker,   
  } = require('../utils/readAndWriteFiles');
  const generateId = require('../utils/generateId');
  
@@ -58,7 +59,7 @@ router.put(
   checkTalk,
   async (request, response) => {
     const { id } = request.params;
-    const talker = await getTalkerId(request.params.id);
+    const talker = await getTalkerId(id);
   if (!talker) {
     return response.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   }
@@ -73,5 +74,15 @@ router.put(
     return response.status(200).json(putTalker);
   },
 );
+
+router.delete('/talker/:id', checkToken, async (request, response) => {
+  const { id } = request.params;
+  const talker = await getTalkerId(id);
+  if (!talker) {
+    return response.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  }
+  await deletTalker(id);
+  return response.status(204).json({ message: 'Pessoa deletada com Sucesso' });
+});
 
 module.exports = router;
