@@ -30,29 +30,8 @@ const insertTalker = async (post) => {
   }
 };
 
-const changeBlogPostFile = async (post, id) => {
-  try {
-    const arrayPosts = await readTalkerFile();
-    let changedPost;
-
-    for (let i = 0; i < arrayPosts.length; i += 1) {
-      if (arrayPosts[i].id === Number(id)) {
-        arrayPosts[i].title = post.title;
-        arrayPosts[i].description = post.description;
-        changedPost = arrayPosts[i];
-      }
-    }
-
-    await fs.writeFile('', JSON.stringify(arrayPosts));
-    return changedPost;
-  } catch (error) {
-    return null;
-  }
-};
-
 module.exports = {
   readTalkerFile,
   insertTalker,
-  getTalkerId,
-  changeBlogPostFile,
+  getTalkerId,  
 };
