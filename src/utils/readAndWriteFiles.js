@@ -1,9 +1,9 @@
 const fs = require('fs/promises');
 
-const readBlogPostFile = async () => {
+const readTalkerFile = async () => {
   try {
-    const arrayPosts = await fs.readFile('src/talker.json', 'utf8');
-    return JSON.parse(arrayPosts);
+    const arrayTalkers = await fs.readFile('src/talker.json', 'utf8');
+    return JSON.parse(arrayTalkers);
   } catch (error) {
     const err = new Error('Error opening file');
     err.statusCode = 500;
@@ -11,14 +11,16 @@ const readBlogPostFile = async () => {
   }
 };
 
-const getBlogPostLastId = async () => {
-  const arrayPosts = await readBlogPostFile();
-  return arrayPosts[0];
+const getTalkerId = async (idTalker) => {
+  const arrayTalkers = await readTalkerFile();
+  
+  const talker = arrayTalkers.find((t) => t.id === Number(idTalker));
+  return talker;
 };
 
 const insertBlogPostFile = async (post) => {
   try {
-    const arrayPosts = await readBlogPostFile();
+    const arrayPosts = await readTalkerFile();
     arrayPosts.push(post);
     return await fs.writeFile('src/talker.json', JSON.stringify(arrayPosts, null, 2));
   } catch (error) {
@@ -30,7 +32,7 @@ const insertBlogPostFile = async (post) => {
 
 const changeBlogPostFile = async (post, id) => {
   try {
-    const arrayPosts = await readBlogPostFile();
+    const arrayPosts = await readTalkerFile();
     let changedPost;
 
     for (let i = 0; i < arrayPosts.length; i += 1) {
@@ -49,8 +51,8 @@ const changeBlogPostFile = async (post, id) => {
 };
 
 module.exports = {
-  readBlogPostFile,
+  readTalkerFile,
   insertBlogPostFile,
-  getBlogPostLastId,
+  getTalkerId,
   changeBlogPostFile,
 };
