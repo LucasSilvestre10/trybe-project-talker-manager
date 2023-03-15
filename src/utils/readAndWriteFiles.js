@@ -18,7 +18,7 @@ const getTalkerId = async (idTalker) => {
   return talker;
 };
 
-const insertBlogPostFile = async (post) => {
+const insertTalker = async (post) => {
   try {
     const arrayPosts = await readTalkerFile();
     arrayPosts.push(post);
@@ -52,7 +52,7 @@ const changeBlogPostFile = async (post, id) => {
 
 module.exports = {
   readTalkerFile,
-  insertBlogPostFile,
+  insertTalker,
   getTalkerId,
   changeBlogPostFile,
 };
